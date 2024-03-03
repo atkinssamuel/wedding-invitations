@@ -1,2 +1,3 @@
-# wedding-invitations
-This repository contains the code needed to send an email &amp; SMS blast which include our wedding invitations.
+# Wedding Invitation Bot
+
+This project includes simple automation for sending emails and SMS messages.
