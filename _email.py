@@ -24,17 +24,27 @@ def get_wedding_message(name, email):
 <!DOCTYPE html>
 <html>
 <head><title>Wedding Invitation</title></head>
-<body style="margin: 40px;">
-    <h1 style="margin-left:20px">Samuel and Theodora are Getting Married!</h1>
+<body>
+    <img 
+        src="cid:image1" 
+        style="
+            display: block;
+            margin: 0 auto;
+            width: 50%;
+            border: 2px solid grey;
+            margin-bottom: 20px;
+        "
+    />
     
-    <div style="display: inline-block; text-align: center;">
-        <img src="cid:image1" width="700" style="display: block; margin: 0 auto;">
-    </div>
-    
-    <p style="
+    <p
+      style="
         font-family: 'Arial', sans-serif;
-        font-size: 16px;
-        line-height: 1.6;"
+        font-size: 20px;
+        line-height: 1.6;
+        display: block;
+        margin: 0 auto;
+        width: 90%;
+      "
     >
     <i>Dear {name},</i>
 
@@ -46,14 +56,13 @@ def get_wedding_message(name, email):
     <br>
     
     <b>
-    RSVP: 
-    <a href="https://www.zola.com/wedding/samuelandtheodora" target="_blank">\
-        https://www.zola.com/wedding/samuelandtheodora
+    RSVP:
+    <a href="https://www.zola.com/wedding/samuelandtheodora" target="_blank">
+    https://www.zola.com/wedding/samuelandtheodora
     </a>
     </b>
 
     </p>
-
 </body>
 </html>
 
@@ -71,6 +80,21 @@ def get_wedding_message(name, email):
     return message
 
 if __name__ == "__main__":
-    message = get_wedding_message("Samuel & Theodora", "theo.c.bors@gmail.com")
+    guest_df = pd.read_csv("guests.csv")
 
-    send_custom_email(message)
+    contacted_groups = []
+
+    for i in range(guest_df.shape[0]):
+        guest = guest_df.iloc[i]
+        
+        if not pd.isna(guest.group) and not pd.isna(guest.email):
+            print(f"Group: {guest.group}, Recipient Email: {guest.email}")
+            message = get_wedding_message(guest.group, guest.email)
+            if send_custom_email(message):
+                contacted_groups.append(guest.group)
+            else:
+                print(f"FAILED TO CONTACT {guest.group.upper()}")
+
+    
+    pd.DataFrame.from_dict({"contacted_email": contacted_groups}).to_csv("contacted_email.csv", index=False)
+        

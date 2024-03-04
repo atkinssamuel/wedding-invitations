@@ -19,6 +19,8 @@ def send_sms(recipient: str, message: str, verbose: bool = False):
             "message": message,
             "key": api_key,
         },
-    )
+    ).json()
     if verbose:
-        print(resp.json())
+        print(resp)
+
+    return resp["success"]

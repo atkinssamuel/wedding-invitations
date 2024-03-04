@@ -56,10 +56,10 @@ def _send_message(service, message_object: dict):
 def send_text_email(subject: str, html: str, recipient: str):
     service = _get_gmail_service()
     message_object = _create_text_message(subject, html, recipient)
-    _send_message(service, message_object)
+    return _send_message(service, message_object)
 
 def send_custom_email(message: Union[MIMEMultipart, MIMEText, MIMEImage]):
     service = _get_gmail_service()
     message_object = {"raw": base64.urlsafe_b64encode(message.as_bytes()).decode() }
-    _send_message(service, message_object)
+    return _send_message(service, message_object)
 
