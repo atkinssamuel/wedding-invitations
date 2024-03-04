@@ -80,7 +80,7 @@ def get_wedding_message(name, email):
     return message
 
 if __name__ == "__main__":
-    guest_df = pd.read_csv("guests.csv")
+    guest_df = pd.read_csv("remaining.csv")
 
     contacted_groups = []
 

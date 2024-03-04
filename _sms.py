@@ -6,7 +6,7 @@ from src.sms import send_sms
 
 
 if __name__ == "__main__":
-    guest_df = pd.read_csv("guests.csv")
+    guest_df = pd.read_csv("remaining.csv")
 
     groups = []
     contacts = []
