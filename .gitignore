@@ -5,3 +5,5 @@ token.json
 __pycache__
 guests.csv
 remaining.csv
+contacted_email.csv
+contacted_sms.csv
