@@ -16,6 +16,9 @@ load_dotenv()
 
 from_email = os.getenv("FROM_EMAIL")
 
+SCOPES = ["https://www.googleapis.com/auth/gmail.send"]
+
+
 def _get_gmail_service():
     creds = None
 
@@ -28,19 +31,21 @@ def _get_gmail_service():
         else:
             flow = InstalledAppFlow.from_client_secrets_file("credentials.json", SCOPES)
             creds = flow.run_local_server(port=0)
-        
+
         with open("token.json", "w") as token:
             token.write(creds.to_json())
 
     return build("gmail", "v1", credentials=creds)
 
+
 def _create_text_message(subject: str, html: str, recipient: str):
-    message = MIMEText(html, 'html')
+    message = MIMEText(html, "html")
     message["to"] = recipient
     message["from"] = from_email
     message["subject"] = subject
 
     return {"raw": base64.urlsafe_b64encode(message.as_bytes()).decode()}
+
 
 def _send_message(service, message_object: dict):
     try:
@@ -53,13 +58,14 @@ def _send_message(service, message_object: dict):
         print("An error occurred: %s" % e)
         return None
 
+
 def send_text_email(subject: str, html: str, recipient: str):
     service = _get_gmail_service()
     message_object = _create_text_message(subject, html, recipient)
     return _send_message(service, message_object)
 
+
 def send_custom_email(message: Union[MIMEMultipart, MIMEText, MIMEImage]):
     service = _get_gmail_service()
-    message_object = {"raw": base64.urlsafe_b64encode(message.as_bytes()).decode() }
+    message_object = {"raw": base64.urlsafe_b64encode(message.as_bytes()).decode()}
     return _send_message(service, message_object)
-
