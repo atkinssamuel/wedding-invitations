@@ -33,12 +33,14 @@ if __name__ == "__main__":
     contacted_numbers = []
 
     for group, contact_options in zip(groups, contacts):
-        message = (
-            f"Dear {group},\n\nYou are cordially invited to celebrate the marriage of Samuel Atkins and Theodora Bors."
-        )
-        messages = ["Welcome to Samuel & Theodora's Wedding Alert System!", message, f"RSVP: {url}"]
+        message = f"Dear {group},\n\nYou are cordially invited to celebrate the marriage of Samuel Atkins and Theodora Bors."
+        messages = [
+            "Welcome to Samuel & Theodora's Wedding Alert System!",
+            message,
+            f"RSVP: {url}",
+        ]
 
-        print(f'Group: {group}, Contacts: {contact_options}')
+        print(f"Group: {group}, Contacts: {contact_options}")
         success = False
         for contact in contact_options:
             success_count = 0
@@ -46,7 +48,7 @@ if __name__ == "__main__":
             for message in messages:
                 if send_sms(contact, message, False):
                     success_count += 1
-            
+
             if success_count == 3:
                 success = True
 
@@ -56,4 +58,6 @@ if __name__ == "__main__":
         else:
             print(f"FAILED TO CONTACT {group.upper()}")
 
-    pd.DataFrame.from_dict({"contacted_sms": contacted_groups, "numbers": contacted_numbers}).to_csv("contacted_sms.csv", index=False)
+    pd.DataFrame.from_dict(
+        {"contacted_sms": contacted_groups, "numbers": contacted_numbers}
+    ).to_csv("contacted_sms.csv", index=False)
