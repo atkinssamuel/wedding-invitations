@@ -33,7 +33,7 @@ def get_wedding_message(name, email):
         style="
             display: block;
             margin: 0 auto;
-            width: 50%;
+            width: 80%;
             border: 2px solid grey;
             margin-bottom: 20px;
         "
